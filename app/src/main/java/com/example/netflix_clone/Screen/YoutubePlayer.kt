@@ -7,10 +7,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.navigation.NavHostController
 import com.example.netflix_clone.R
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -91,27 +95,38 @@ fun YoutubePlayer(youtubeVideoId: String) {
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.weight(3f))
             }
-            AndroidView(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(color = Color.Gray),
-                factory = { context ->
-                    YouTubePlayerView(context = context).apply {
-                        lifecycleOwner.lifecycle.addObserver(this)
-
-                        addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-                            override fun onReady(youTubePlayer: YouTubePlayer) {
-                                youTubePlayer.loadVideo(youtubeVideoId, 0f)
-                            }
-                        })
-                    }
-                })
-
+            ScrollItems_y(youtubeVideoId)
         }
     }
+}
 
+@Composable
+fun ScrollItems_y(youtubeVideoId: String) {
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .fillMaxSize()
+    ) {
+        val lifecycleOwner = LocalLifecycleOwner.current
+        AndroidView(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(8.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .background(color = Color.Gray),
+            factory = { context ->
+                YouTubePlayerView(context = context).apply {
+                    lifecycleOwner.lifecycle.addObserver(this)
+
+                    addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+                        override fun onReady(youTubePlayer: YouTubePlayer) {
+                            youTubePlayer.loadVideo(youtubeVideoId, 0f)
+                        }
+                    })
+                }
+            })
+
+    }
 }

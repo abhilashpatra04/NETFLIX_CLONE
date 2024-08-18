@@ -38,10 +38,10 @@ fun FavoriteScreen(navController: NavHostController) {
         bottomBar = {
             BottomBar(
                 selectedIcon = IconType.Favorite,
-                onClickHome = { navController.navigate("TrendingScreen") },
+                onClickHome = { navController.navigate("home");navController.navigate("TrendingScreen") },
                 onClickSearch = { navController.navigate("search") },
                 onClickFavorite = { selectedIcon.value = IconType.Favorite },
-                onClickPerson = { navController.navigate("person") }
+                onClickPerson = { navController.navigate("Profile") }
             )
         }
     ) { innerpadding ->

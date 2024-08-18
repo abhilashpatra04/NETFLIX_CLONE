@@ -52,7 +52,7 @@ fun TrendingScreen(navController: NavHostController) {
         bottomBar = {
             BottomBar(
                 selectedIcon = selectedIcon.value,
-                onClickHome = { selectedIcon.value = IconType.Home },
+                onClickHome = { selectedIcon.value = IconType.Home;navController.navigate("TrendingScreen") },
                 onClickSearch = { navController.navigate("search") },
                 onClickFavorite = { navController.navigate("favorite") },
                 onClickPerson = { navController.navigate("Profile") }
@@ -94,7 +94,7 @@ fun TrendingScreen(navController: NavHostController) {
                 val onClickMovies = { navController.navigate("MovieScreen") }
                 val onClickSeries = { navController.navigate("SeriesScreen") }
                 TextButton(onClick = onClickTrending) {
-                    Text("Trending", color = Color.White,fontSize = 18.sp, style = MaterialTheme.typography.bodyMedium)
+                    Text("Trending", color = Color.Red,fontSize = 18.sp, style = MaterialTheme.typography.bodyMedium)
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 TextButton(onClick = onClickMovies) {

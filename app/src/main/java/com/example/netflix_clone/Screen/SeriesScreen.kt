@@ -52,7 +52,7 @@ fun SeriesScreen(navController: NavHostController) {
         bottomBar = {
             BottomBar(
                 selectedIcon = selectedIcon.value,
-                onClickHome = { selectedIcon.value = IconType.Home },
+                onClickHome = { selectedIcon.value = IconType.Home;navController.navigate("TrendingScreen") },
                 onClickSearch = { navController.navigate("search") },
                 onClickFavorite = { navController.navigate("favorite") },
                 onClickPerson = { navController.navigate("Profile") }
@@ -102,17 +102,67 @@ fun SeriesScreen(navController: NavHostController) {
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 TextButton(onClick = onClickSeries) {
-                    Text("Series", color = Color.White,fontSize = 18.sp, style = MaterialTheme.typography.bodyMedium)
+                    Text("Series", color = Color.Red,fontSize = 18.sp, style = MaterialTheme.typography.bodyMedium)
                 }
                 Spacer(modifier = Modifier.weight(0.5f))
             }
-            ScrollItems_s()
+            ScrollItems_s(navController)
         }
     }
 }
 @Composable
-fun Card_s(series: Series) {
+fun Card_s(series: Series, navController: NavHostController) {
     Card(
+        modifier = Modifier
+            .width(150.dp)
+            .clickable { navController.navigate("youtube/${series.id}") }
+            .background(color = Color.Black),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(220.dp)
+                .background(color = Color.Gray)
+        ) {
+            AsyncImage(
+                model = series.image,
+                contentDescription = series.title,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(170.dp),
+                contentScale = ContentScale.Crop
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(6.dp),
+                verticalArrangement = Arrangement.Bottom
+            ) {
+                Text(
+                    text = series.title,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    maxLines = 1
+                )
+                Text(
+                    text = series.genre,
+                    fontSize = 12.sp,
+                    color = Color.Black,
+                    maxLines = 1
+                )
+                Text(
+                    text = "Rating: ${series.rating}",
+                    fontSize = 10.sp
+                )
+            }
+        }
+    }
+}
+@Composable
+fun Card_us(movies: Series) {
+    androidx.compose.material3.Card(
         modifier = Modifier
             .width(150.dp)
             .background(color = Color.Black),
@@ -121,81 +171,78 @@ fun Card_s(series: Series) {
     ) {
         Box(
             modifier = Modifier
-                .width(150.dp)
-                .height(200.dp)
-                .clickable { /* Handle click */ }
+                .fillMaxWidth()
+                .height(220.dp)
+                .background(color = Color.Gray)
         ) {
             AsyncImage(
-                model = series.image,
-                contentDescription = series.title,
+                model = movies.image,
+                contentDescription = movies.title,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp),
-                contentScale = ContentScale.Fit
+                    .height(170.dp),
+                contentScale = ContentScale.Crop
             )
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(10.dp),
+                    .padding(6.dp),
                 verticalArrangement = Arrangement.Bottom
             ) {
                 Text(
-                    text = series.title,
+                    text = movies.title,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    maxLines = 1
-                )
-                Text(
-                    text = series.genre,
                     fontSize = 14.sp,
                     color = Color.Black,
                     maxLines = 1
                 )
                 Text(
-                    text = "Rating: ${series.rating}",
-                    fontSize = 12.sp
+                    text = movies.genre,
+                    fontSize = 12.sp,
+                    color = Color.Black,
+                    maxLines = 1
                 )
             }
         }
     }
 }
-//@Composable
-//fun Trending_Now_s(){
-//    Column(
-//        modifier = Modifier
-//            .padding(16.dp)
-//    ) {
-//        Row {
-//            Text(
-//                text = "Trending Now",
-//                color = Color.White,
-//                fontSize = 16.sp,
-//                fontWeight = FontWeight.Bold,
-//                modifier = Modifier.padding(8.dp).align(Alignment.CenterVertically)
-//            )
-//        }
-//        Spacer(modifier = Modifier.height(8.dp))
-//        // Movie cards row
-//        LazyRow(
-//            horizontalArrangement = Arrangement.spacedBy(16.dp),
-//            contentPadding = PaddingValues(horizontal = 10.dp),
-//
-//            ) {
-//            items(SeriesScreenData.popularSeries) {series->
-//                Card_s(series)
-//            }
-//        }
-//    }
-//}
 @Composable
-fun Popular_Series(){
+fun Upcomming_Series(){
     Column(
         modifier = Modifier
             .padding(16.dp)
     ) {
         Row {
             Text(
-                text = "Popular on Netflix ",
+                text = "Upcomming Series",
+                color = Color.White,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(8.dp).align(Alignment.CenterVertically)
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        // Movie cards row
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(horizontal = 10.dp),
+
+            ) {
+            items(SeriesScreenData.upcomingSeries) {series->
+                Card_us(series)
+            }
+        }
+    }
+}
+@Composable
+fun Popular_Series(navController: NavHostController){
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+    ) {
+        Row {
+            Text(
+                text = "Popular Series ",
                 color = Color.White,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
@@ -216,7 +263,7 @@ fun Popular_Series(){
             contentPadding = PaddingValues(horizontal = 10.dp),
         ) {
             items(SeriesScreenData.popularSeries) {series->
-                Card_s(series)
+                Card_s(series=series,navController=navController)
             }
         }
     }
@@ -257,14 +304,14 @@ fun Popular_Series(){
 //}
 
 @Composable
-fun ScrollItems_s() {
+fun ScrollItems_s(navController: NavHostController) {
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .fillMaxSize()
     ) {
-//        Trending_Now_s()
-        Popular_Series()
+        Upcomming_Series()
+        Popular_Series(navController)
 //        Watch_it_Again_s()
     }
 }

@@ -3,6 +3,7 @@ package com.example.netflix_clone.Screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,9 +33,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import com.example.netflix_clone.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -61,6 +64,21 @@ fun SearchScreen() {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .size(70.dp)
+                    .background(color = Color.Black),
+                horizontalArrangement = Arrangement.Absolute.Center
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.netflix_logo2),
+                    contentDescription = "Image",
+                    modifier= Modifier
+                        .size(width = 200.dp, height = 65.dp)
+                        .background(color = Color.Black)
+                )
+            }
             SearchBar(
                 value = searchQuery,
                 onValueChange = { searchQuery = it },

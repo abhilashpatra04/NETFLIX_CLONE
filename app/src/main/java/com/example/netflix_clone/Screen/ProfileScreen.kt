@@ -55,8 +55,8 @@ fun ProfilePage(navController: NavHostController) {
         modifier = Modifier.background(color = Color.Black),
         bottomBar = {
             BottomBar(
-                selectedIcon = selectedIcon.value,
-                onClickHome = { navController.navigate("TendingScreen") },
+                selectedIcon = IconType.Person,
+                onClickHome = { navController.navigate("home");navController.navigate("TrendingScreen")},
                 onClickSearch = { navController.navigate("search") },
                 onClickFavorite = { navController.navigate("favorite") },
                 onClickPerson = { selectedIcon.value = IconType.Person }
@@ -71,7 +71,9 @@ fun ProfilePage(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text= "Profile ",color=Color.White,
-                modifier = Modifier.align(Alignment.Start).padding(16.dp),
+                modifier = Modifier
+                    .align(Alignment.Start)
+                    .padding(16.dp),
                 fontSize = 30.sp
                 )
             Spacer(modifier = Modifier.height(32.dp))
@@ -106,11 +108,13 @@ fun ProfilePage(navController: NavHostController) {
             onDismissRequest = { showLogoutDialog = false },
             title = { Text("Log Out", color = Color.White) },
             text = { Text("Are you sure you want to log out?",color=Color.White) },
-            modifier = Modifier.background(color=Color.Gray),
+            containerColor = Color.Black,
+            modifier = Modifier.background(color=Color.Transparent),
             confirmButton = {
                 Button(
                     onClick = {
                         showLogoutDialog = false
+                        navController.navigate("netflix_screen")
                     },
                     modifier = Modifier.background(color = Color.Black)
                 ) {
@@ -167,7 +171,7 @@ fun ProfileOptionButton(optionText: String, onClick: () -> Unit) {
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
                 .height(50.dp)
-                .background(color=Color.Black),
+                .background(color = Color.Black),
             shape = RoundedCornerShape(15.dp)
         )
         {
