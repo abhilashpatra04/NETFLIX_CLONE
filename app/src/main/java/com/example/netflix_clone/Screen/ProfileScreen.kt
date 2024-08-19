@@ -40,7 +40,7 @@ fun ProfileScreen(navController: NavController) {
     val context = LocalContext.current
     val sharedPrefs = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
     var name by remember { mutableStateOf(sharedPrefs.getString("name", "") ?: "") }
-    var email by remember { mutableStateOf(sharedPrefs.getString("email", "") ?: "") }
+    val email by remember { mutableStateOf(sharedPrefs.getString("email", "") ?: "") }
     var showLogoutDialog by remember { mutableStateOf(false) }
     val selectedIcon = remember { mutableStateOf(IconType.Home) }
     Scaffold(
@@ -150,10 +150,6 @@ fun ProfileScreen(navController: NavController) {
 }
 @Composable
 fun ProfileOptionButton(optionText: String, onClick: () -> Unit) {
-    val context = LocalContext.current
-    val sharedPrefs = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
-    val name by remember { mutableStateOf(sharedPrefs.getString("name", "") ?: "") }
-    val email by remember { mutableStateOf(sharedPrefs.getString("email", "") ?: "") }
     if (optionText == "Log Out?") {
         TextButton(
             onClick = onClick,
