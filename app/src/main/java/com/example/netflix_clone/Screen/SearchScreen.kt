@@ -36,6 +36,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.netflix_clone.R
 import kotlinx.coroutines.Dispatchers
@@ -44,8 +45,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.URL
-
-
 @Composable
 fun SearchScreen() {
     var searchQuery by remember { mutableStateOf("") }
@@ -61,7 +60,7 @@ fun SearchScreen() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(start = 8.dp,end = 8.dp, bottom = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
@@ -142,7 +141,7 @@ fun MovieItem(movie: Movie) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = rememberImagePainter(movie.poster),
+            painter = rememberAsyncImagePainter(movie.poster),
             contentDescription = movie.title,
             modifier = Modifier.size(100.dp)
         )
@@ -182,8 +181,12 @@ private fun searchMovie(query: String, callback: (List<Movie>) -> Unit) {
         }
     }
 }
-
-data class Movie(val title: String, val year: String, val type: String, val poster: String)
+data class Movie(
+    val title: String,
+    val year: String,
+    val type: String,
+    val poster: String
+)
 
 
 

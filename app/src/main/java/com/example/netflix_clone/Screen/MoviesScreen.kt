@@ -33,12 +33,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.netflix_clone.Model.Data.Movie
 import com.example.netflix_clone.Model.Data.MoviesScreenData
 import com.example.netflix_clone.R
@@ -128,7 +130,10 @@ fun Card_m(movies: Movie, navController: NavHostController) {
                 .background(color = Color.Gray)
         ) {
             AsyncImage(
-                model = movies.image,
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(movies.image)
+                    .allowHardware(false) // disable hardware acceleration to reduce memory usage
+                    .build(),
                 contentDescription = movies.title,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -179,7 +184,10 @@ fun Card_um(movies: Movie) {
                 .background(color = Color.Gray)
         ) {
             AsyncImage(
-                model = movies.image,
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(movies.image)
+                    .allowHardware(false) // disable hardware acceleration to reduce memory usage
+                    .build(),
                 contentDescription = movies.title,
                 modifier = Modifier
                     .fillMaxWidth()

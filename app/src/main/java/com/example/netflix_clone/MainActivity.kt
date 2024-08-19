@@ -61,14 +61,14 @@ fun MyApp() {
         composable("MovieScreen") {
             MoviesScreen(navController = navController)
         }
-        composable("Seriesscreen") {
+        composable("SeriesScreen") {
             SeriesScreen(navController = navController)
         }
         composable("Profile") {
             ProfileScreen(navController = navController)
         }
         composable("youtube/{id}") { backStackEntry ->
-            YoutubePlayer(youtubeVideoId = backStackEntry.arguments?.getString("id") ?: "")
+            YoutubePlayer(youtubeVideoId = backStackEntry.arguments?.getString("id") ?: "",navController=navController)
         }
     }
 }
